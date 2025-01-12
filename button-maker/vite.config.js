@@ -5,3 +5,8 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
 })
+export default defineConfig({
+  base: '/button-maker/',  // Add only this new line
+  plugins: [react()],      // Keep your existing config
+  // ... rest of your existing config
+})
