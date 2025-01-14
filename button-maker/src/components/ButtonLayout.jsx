@@ -4,20 +4,20 @@ import { Upload } from 'lucide-react';
 const ButtonLayout = () => {
   const [image, setImage] = useState(null);
 
-  // Constants for button dimensions (in inches)
-  const BUTTON_DIAMETER = 2.25;
-  const BLEED = 0.125; // 1/8 inch bleed
-  const TOTAL_DIAMETER = BUTTON_DIAMETER + (BLEED * 2);
+  // Constants for button dimensions (in inches) - from BAM template
+  const PICTURE_DIAMETER = 2.187; // Picture size from template
+  const TOTAL_DIAMETER = 2.747; // Cut line diameter from template
+  const BLEED = (TOTAL_DIAMETER - PICTURE_DIAMETER) / 2; // Calculate bleed from template specs
   
   // Convert to pixels (assuming 96 DPI)
   const DPI = 96;
-  const BUTTON_PX = Math.round(BUTTON_DIAMETER * DPI);
+  const PICTURE_PX = Math.round(PICTURE_DIAMETER * DPI);
   const TOTAL_PX = Math.round(TOTAL_DIAMETER * DPI);
   const BLEED_PX = Math.round(BLEED * DPI);
 
   // Printer safe margin (0.25 inches)
   const PRINTER_MARGIN = Math.round(0.25 * DPI);
-  const GRID_GAP = Math.round(0.125 * DPI); // 1/8 inch gap (doubled from previous)
+  const GRID_GAP = Math.round(0.0625 * DPI); // 1/16 inch gap for tighter spacing
   const VERTICAL_OFFSET = TOTAL_PX * 0.5; // Offset middle row by half a button
 
   const handleImageUpload = (event) => {
@@ -39,35 +39,40 @@ const ButtonLayout = () => {
   const CENTER_OFFSET = Math.max(0, (PAGE_WIDTH - THREE_BUTTON_WIDTH) / 2);
 
   return (
-    <div className="print:m-0 print:p-0">
-      <div className="mb-6 space-y-4 print:hidden">
-        <div className="flex items-center space-x-4">
-          <label className="flex items-center px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600">
-            <Upload className="w-4 h-4 mr-2" />
-            Upload Image
-            <input
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-          </label>
-          <button
-            onClick={handlePrint}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={!image}
-          >
-            Print Layout
-          </button>
-        </div>
-        
-        {!image && (
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-            <p className="text-gray-500">Upload an image to begin</p>
+    <div className="root-container">
+      {/* Screen-only UI elements */}
+      <div className="screen-only-ui">
+        <h1 className="text-4xl font-bold text-center mb-6">Button Layout Maker</h1>
+        <div className="mb-6 space-y-4">
+          <div className="flex items-center space-x-4">
+            <label className="flex items-center px-4 py-2 bg-purple-500 text-white rounded cursor-pointer hover:bg-purple-600">
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Image
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+            </label>
+            <button
+              onClick={handlePrint}
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!image}
+            >
+              Print Layout
+            </button>
           </div>
-        )}
+          
+          {!image && (
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+              <p className="text-gray-500">Upload an image to begin</p>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Printable content */}
       {image && (
         <div style={{
           display: 'flex',
@@ -93,7 +98,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
@@ -112,7 +117,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
@@ -126,7 +131,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
@@ -149,8 +154,21 @@ const ButtonLayout = () => {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
-          .print-hide {
-            display: none;
+          .screen-only-ui {
+            display: none !important;
+            visibility: hidden !important;
+          }
+          .root-container > *:not(.screen-only-ui) {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+          }
+        }
+
+        @media screen {
+          .root-container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 1rem;
           }
         }
       `}</style>
