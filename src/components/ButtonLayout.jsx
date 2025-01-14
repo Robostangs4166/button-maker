@@ -42,7 +42,7 @@ const ButtonLayout = () => {
     <div className="print:m-0 print:p-0">
       <div className="mb-6 space-y-4 print:hidden">
         <div className="flex items-center space-x-4">
-          <label className="flex items-center px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600">
+          <label className="flex items-center px-4 py-2 bg-purple-500 text-white rounded cursor-pointer hover:bg-purple-600">
             <Upload className="w-4 h-4 mr-2" />
             Upload Image
             <input
