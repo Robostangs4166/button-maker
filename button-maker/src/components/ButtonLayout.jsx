@@ -4,20 +4,20 @@ import { Upload } from 'lucide-react';
 const ButtonLayout = () => {
   const [image, setImage] = useState(null);
 
-  // Constants for button dimensions (in inches)
-  const BUTTON_DIAMETER = 2.25;
-  const BLEED = 0.125; // 1/8 inch bleed
-  const TOTAL_DIAMETER = BUTTON_DIAMETER + (BLEED * 2);
+  // Constants for button dimensions (in inches) - from BAM!! template
+  const PICTURE_DIAMETER = 2.187; // Picture size from template
+  const TOTAL_DIAMETER = 2.747; // Cut line diameter from template
+  const BLEED = (TOTAL_DIAMETER - PICTURE_DIAMETER) / 2; // Calculate bleed from template specs
   
   // Convert to pixels (assuming 96 DPI)
   const DPI = 96;
-  const BUTTON_PX = Math.round(BUTTON_DIAMETER * DPI);
+  const PICTURE_PX = Math.round(PICTURE_DIAMETER * DPI);
   const TOTAL_PX = Math.round(TOTAL_DIAMETER * DPI);
   const BLEED_PX = Math.round(BLEED * DPI);
 
   // Printer safe margin (0.25 inches)
   const PRINTER_MARGIN = Math.round(0.25 * DPI);
-  const GRID_GAP = Math.round(0.125 * DPI); // 1/8 inch gap (doubled from previous)
+  const GRID_GAP = Math.round(0.0625 * DPI); // 1/16 inch gap for tighter spacing
   const VERTICAL_OFFSET = TOTAL_PX * 0.5; // Offset middle row by half a button
 
   const handleImageUpload = (event) => {
@@ -93,7 +93,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
@@ -112,7 +112,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
@@ -126,7 +126,7 @@ const ButtonLayout = () => {
                     key={i} 
                     image={image} 
                     index={i} 
-                    buttonPx={BUTTON_PX} 
+                    buttonPx={PICTURE_PX} 
                     totalPx={TOTAL_PX} 
                     bleedPx={BLEED_PX} 
                   />
