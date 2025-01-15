@@ -198,7 +198,7 @@ const ButtonCircle = ({ image, index, buttonPx, totalPx, bleedPx }) => (
       />
       {/* Mask for the visible area */}
       <div
-        className="absolute"
+        className="absolute print:hidden"
         style={{
           top: bleedPx,
           left: bleedPx,
