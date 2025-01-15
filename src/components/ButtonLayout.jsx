@@ -173,20 +173,41 @@ const ButtonCircle = ({ image, index, buttonPx, totalPx, bleedPx }) => (
     {/* Bleed area indicator */}
     <div className="absolute inset-0 border border-red-300 rounded-full print:hidden" />
     
-    {/* Button circle with image */}
+    {/* Button circle with image that extends into bleed area */}
     <div
-      className="absolute rounded-full overflow-hidden"
+      className="absolute overflow-hidden rounded-full"
       style={{
-        top: bleedPx,
-        left: bleedPx,
-        width: buttonPx,
-        height: buttonPx
+        top: 0,
+        left: 0,
+        width: totalPx,
+        height: totalPx
       }}
     >
       <img
         src={image}
         alt={`Button ${index + 1}`}
-        className="w-full h-full object-cover"
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }}
+      />
+      {/* Mask for the visible area */}
+      <div
+        className="absolute"
+        style={{
+          top: bleedPx,
+          left: bleedPx,
+          width: buttonPx,
+          height: buttonPx,
+          background: 'rgba(255, 255, 255, 0.3)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }}
       />
     </div>
   </div>
